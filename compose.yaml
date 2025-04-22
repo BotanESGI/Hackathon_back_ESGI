@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+    
+    php:
+        build:
+            context: .
+        volumes:
+            - .:/app:rw
+        ports:
+            - "8000:8000"
+
+    database:
+        image: postgres:16-alpine
+        environment:
+            POSTGRES_DB: app
+            POSTGRES_PASSWORD: root
+            POSTGRES_USER: root
+            POSTGRES_DB_TEST: app_test
+        volumes:
+            - database_data:/var/lib/postgresql/data:rw
+        ports:
+            - "5432:5432"    
+            
+    adminer:
+        image: adminer
+        ports:
+            - "8080:8080"  # Adminer accessible sur http://localhost:8080
+
+volumes:
+    database_data:
