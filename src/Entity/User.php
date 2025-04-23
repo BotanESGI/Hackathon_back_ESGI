@@ -56,10 +56,34 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'datetime')]
     private ?\DateTimeInterface $createdAt = null;
 
+    /**
+     * @var Collection<int, Swipes>
+     */
+    #[ORM\OneToMany(targetEntity: Swipes::class, mappedBy: 'user')]
+    private Collection $swipes;
+
+    /**
+     * @var Collection<int, Negotiations>
+     */
+    #[ORM\OneToMany(targetEntity: Negotiations::class, mappedBy: 'user')]
+    private Collection $negotiations;
+
+    /**
+     * @var Collection<int, Bookings>
+     */
+    #[ORM\OneToMany(targetEntity: Bookings::class, mappedBy: 'user')]
+    private Collection $bookings;
+
+    #[ORM\Column(length: 255)]
+    private ?string $level = null;
+
     public function __construct()
     {
         $this->roles = ['ROLE_USER'];
         $this->createdAt = new \DateTimeImmutable();
+        $this->swipes = new ArrayCollection();
+        $this->negotiations = new ArrayCollection();
+        $this->bookings = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -131,6 +155,108 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setCreatedAt(\DateTimeInterface $createdAt): static
     {
         $this->createdAt = $createdAt;
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Swipes>
+     */
+    public function getSwipes(): Collection
+    {
+        return $this->swipes;
+    }
+
+    public function addSwipe(Swipes $swipe): static
+    {
+        if (!$this->swipes->contains($swipe)) {
+            $this->swipes->add($swipe);
+            $swipe->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSwipe(Swipes $swipe): static
+    {
+        if ($this->swipes->removeElement($swipe)) {
+            // set the owning side to null (unless already changed)
+            if ($swipe->getUser() === $this) {
+                $swipe->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Negotiations>
+     */
+    public function getNegotiations(): Collection
+    {
+        return $this->negotiations;
+    }
+
+    public function addNegotiation(Negotiations $negotiation): static
+    {
+        if (!$this->negotiations->contains($negotiation)) {
+            $this->negotiations->add($negotiation);
+            $negotiation->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeNegotiation(Negotiations $negotiation): static
+    {
+        if ($this->negotiations->removeElement($negotiation)) {
+            // set the owning side to null (unless already changed)
+            if ($negotiation->getUser() === $this) {
+                $negotiation->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Bookings>
+     */
+    public function getBookings(): Collection
+    {
+        return $this->bookings;
+    }
+
+    public function addBooking(Bookings $booking): static
+    {
+        if (!$this->bookings->contains($booking)) {
+            $this->bookings->add($booking);
+            $booking->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBooking(Bookings $booking): static
+    {
+        if ($this->bookings->removeElement($booking)) {
+            // set the owning side to null (unless already changed)
+            if ($booking->getUser() === $this) {
+                $booking->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getLevel(): ?string
+    {
+        return $this->level;
+    }
+
+    public function setLevel(string $level): static
+    {
+        $this->level = $level;
+
         return $this;
     }
 }
