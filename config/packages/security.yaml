@@ -1,37 +1,48 @@
 security:
-    # https://symfony.com/doc/current/security.html#registering-the-user-hashing-passwords
     password_hashers:
         App\Entity\User:
-            algorithm: 'bcrypt'
-    # https://symfony.com/doc/current/security.html#loading-the-user-the-user-provider
+            algorithm: auto
+
     providers:
-        users_in_memory: { memory: null }
         users_in_database:
             entity:
                 class: App\Entity\User
                 property: email
+
     role_hierarchy:
-        ROLE_USER: [ ]
-        ROLE_ADMIN: [ ROLE_USER ]
-        ROLE_BANNED: [ ]
+        ROLE_ADMIN: [ROLE_USER]
+        ROLE_USER: []
+        ROLE_BANNED: []
 
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
+
+        login:
+            pattern: ^/api/login
+            stateless: true
+            json_login:
+                check_path: /api/login
+                username_path: email
+                password_path: password
+                success_handler: lexik_jwt_authentication.handler.authentication_success
+                failure_handler: lexik_jwt_authentication.handler.authentication_failure
+
+        api:
+            pattern: ^/api
+            stateless: true
+            jwt: ~
+
         main:
             lazy: true
             provider: users_in_database
-            form_login:
-                login_path: login
-                check_path: login
-                enable_csrf: true
-                default_target_path: post_login_check
-
             logout:
-                path: logout
-                target: login
-                invalidate_session: false
+                path: /logout
+                target: /
+
     access_control:
-     - { path: ^/admin, roles: ROLE_ADMIN }
-    # - { path: ^/profile, roles: ROLE_USER }
+        - { path: ^/api/login, roles: PUBLIC_ACCESS }
+        - { path: ^/api/register, roles: PUBLIC_ACCESS } 
+        - { path: ^/api, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/admin, roles: ROLE_ADMIN }
