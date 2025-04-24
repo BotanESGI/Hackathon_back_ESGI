@@ -3,36 +3,37 @@
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\Put;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Post;
 use App\Repository\HotelRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-use ApiPlatform\Metadata\Get;
-use ApiPlatform\Metadata\Post;
-use ApiPlatform\Metadata\Put;
-use ApiPlatform\Metadata\Patch;
-use ApiPlatform\Metadata\Delete;
 
 #[ApiResource(
     operations: [
         new Get(
-              security: "is_granted('ROLE_USER') OR is_granted('ROLE_ADMIN') or is_granted('ROLE_HOTELIER')"
+            security: "is_granted('ROLE_USER') || is_granted('ROLE_ADMIN') || is_granted('ROLE_HOTELIER')"
         ),
         new Post(
-            security: "is_granted('ROLE_ADMIN') or is_granted('ROLE_HOTELIER')"
+            security: "is_granted('ROLE_ADMIN') || is_granted('ROLE_HOTELIER')"
         ),
         new Put(
-            security: "is_granted('ROLE_ADMIN') or is_granted('ROLE_HOTELIER')"
+            security: "is_granted('ROLE_ADMIN') || is_granted('ROLE_HOTELIER')"
         ),
         new Patch(
-            security: "is_granted('ROLE_ADMIN') or is_granted('ROLE_HOTELIER')"
+            security: "is_granted('ROLE_ADMIN') || is_granted('ROLE_HOTELIER')"
         ),
         new Delete(
-            security: "is_granted('ROLE_ADMIN') or is_granted('ROLE_HOTELIER')"
+            security: "is_granted('ROLE_ADMIN') || is_granted('ROLE_HOTELIER')"
         ),
     ]
 )]
+
 #[ORM\Entity(repositoryClass: HotelRepository::class)]
 class Hotel
 {
