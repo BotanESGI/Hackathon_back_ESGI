@@ -49,26 +49,6 @@ class AppFixtures extends Fixture
         $owner->setPassword($hashedOwnerPassword);
         $manager->persist($owner);
 
-        $owner = new User();
-        $owner->setEmail('owner@example2.com');
-        $owner->setRoles(['ROLE_OWNER']);
-        $owner->setCreatedAt($createdAt);
-        $owner->setLevel('premium');
-
-        $hashedOwnerPassword = $this->hasher->hashPassword($owner, 'Owner123!');
-        $owner->setPassword($hashedOwnerPassword);
-        $manager->persist($owner);
-
-        $owner = new User();
-        $owner->setEmail('owner@example3.com');
-        $owner->setRoles(['ROLE_OWNER']);
-        $owner->setCreatedAt($createdAt);
-        $owner->setLevel('premium');
-
-        $hashedOwnerPassword = $this->hasher->hashPassword($owner, 'Owner123!');
-        $owner->setPassword($hashedOwnerPassword);
-        $manager->persist($owner);
-
         // Hotel
         $hotel = new Hotel();
         $hotel->setOwner($owner);
