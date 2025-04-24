@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Put;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Delete;
@@ -16,6 +17,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 #[ApiResource(
     operations: [
+        new GetCollection(
+            security: "is_granted('ROLE_USER') || is_granted('ROLE_ADMIN') || is_granted('ROLE_HOTELIER')"
+        ),
         new Get(
             security: "is_granted('ROLE_USER') || is_granted('ROLE_ADMIN') || is_granted('ROLE_HOTELIER')"
         ),
