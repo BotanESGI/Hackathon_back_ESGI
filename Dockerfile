@@ -17,3 +17,4 @@ EXPOSE 8000
 
 # Commande pour démarrer le serveur Symfony
 CMD ["symfony", "server:start", "--port=8000", "--dir=./public", "--listen-ip=0.0.0.0"]
+
