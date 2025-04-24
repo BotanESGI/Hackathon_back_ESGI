@@ -9,11 +9,21 @@ RUN apk update && apk add bash wget
 RUN wget https://get.symfony.com/cli/installer -O - | bash && \
     mv /root/.symfony*/bin/symfony /usr/local/bin/symfony
 
-# Définir le répertoire de travail
+# Set working directory
 WORKDIR /app
+
+# Copier le contenu de l'application, y compris le répertoire public
+COPY . .
+
+# Copier le script d'initialisation
+COPY render-build.sh /usr/local/bin/render-build.sh
+RUN chmod +x /usr/local/bin/render-build.sh
 
 # Exposer le port
 EXPOSE 8000
 
+# Exécuter composer install
+RUN composer install --no-scripts
+
 # Commande pour démarrer le serveur Symfony
-CMD ["symfony", "server:start", "--port=8000", "--dir=./public", "--listen-ip=0.0.0.0"]
+CMD ["/usr/local/bin/render-build.sh"]
