@@ -9,7 +9,9 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
-#[ApiResource]
+#[ApiResource(
+    security: "is_granted('ROLE_ADMIN') or is_granted('ROLE_HOTELIER')"
+)]
 #[ORM\Entity(repositoryClass: HotelRepository::class)]
 class Hotel
 {

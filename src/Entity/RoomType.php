@@ -2,12 +2,16 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiResource;
 use App\Repository\RoomTypeRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
+#[ApiResource(
+    security: "is_granted('ROLE_ADMIN') or is_granted('ROLE_HOTELIER')"
+)]
 #[ORM\Entity(repositoryClass: RoomTypeRepository::class)]
 class RoomType
 {
