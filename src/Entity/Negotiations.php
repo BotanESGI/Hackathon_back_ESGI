@@ -2,9 +2,13 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiResource;
 use App\Repository\NegotiationsRepository;
 use Doctrine\ORM\Mapping as ORM;
 
+#[ApiResource(
+    security: "is_granted('ROLE_HOTELIER') or is_granted('ROLE_USER')"
+)]
 #[ORM\Entity(repositoryClass: NegotiationsRepository::class)]
 class Negotiations
 {

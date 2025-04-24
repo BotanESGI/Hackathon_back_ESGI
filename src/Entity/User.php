@@ -13,7 +13,9 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 
-#[ApiResource]
+#[ApiResource(
+    security: "is_granted('ROLE_ADMIN')"
+)]
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
 

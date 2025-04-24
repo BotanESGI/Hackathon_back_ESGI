@@ -2,9 +2,13 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiResource;
 use App\Repository\ImageRepository;
 use Doctrine\ORM\Mapping as ORM;
 
+#[ApiResource(
+    security: "is_granted('ROLE_ADMIN') or is_granted('ROLE_HOTELIER')"
+)]
 #[ORM\Entity(repositoryClass: ImageRepository::class)]
 class Image
 {
