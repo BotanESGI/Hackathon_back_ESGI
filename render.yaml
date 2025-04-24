@@ -1,0 +1,19 @@
+services:
+    - type: web
+      name: match-room-api
+      env: docker
+      dockerfilePath: Dockerfile
+      envVars:
+          - key: APP_ENV
+            value: prod
+          - key: APP_SECRET
+            generateValue: true
+          - key: DATABASE_URL
+            sync: false
+      healthCheckPath: /api
+      autoDeploy: true
+
+databases:
+    - name: match-room-db
+      region: frankfurt
+      plan: free
