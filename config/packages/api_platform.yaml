@@ -7,11 +7,13 @@ api_platform:
     # ------ Ajoute ce bloc ------
     mapping:
         paths:
-            - '%kernel.project_dir%/src/Entity'
-            - '%kernel.project_dir%/src/Dto'
+            - "%kernel.project_dir%/src/Entity"
+            - "%kernel.project_dir%/src/Dto"
     # ----------------------------
 
     defaults:
         stateless: true
         cache_headers:
-            vary: ['Content-Type', 'Authorization', 'Origin']
+            vary: ["Content-Type", "Authorization", "Origin"]
+        extra_properties:
+            meilisearch_service: '@App\Service\MeilisearchService'

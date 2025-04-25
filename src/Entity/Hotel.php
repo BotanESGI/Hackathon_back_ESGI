@@ -67,7 +67,7 @@ class Hotel
     #[Assert\Range(
         min: 1,
         max: 5,
-        notInRangeMessage: "Le nombre d’étoiles doit être entre {{ min }} et {{ max }}."
+        notInRangeMessage: "Le nombre d'étoiles doit être entre {{ min }} et {{ max }}."
     )]
     private ?int $stars = null;
 

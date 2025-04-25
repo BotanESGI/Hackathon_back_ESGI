@@ -1,7 +1,6 @@
-version: '3.8'
+version: "3.8"
 
 services:
-    
     php:
         build:
             context: .
@@ -9,6 +8,12 @@ services:
             - .:/app:rw
         ports:
             - "8000:8000"
+        environment:
+            MEILISEARCH_URL: https://ms-22d4fd229bf5-22209.fra.meilisearch.io
+            MEILISEARCH_KEY: f5e553582e7af6cb57e48be5c3f150e1db9779d1
+            APP_ENV: dev
+            APP_DEBUG: 1
+            DATABASE_URL: postgresql://root:root@database:5432/app?serverVersion=16&charset=utf8
 
     database:
         image: postgres:16-alpine
@@ -20,12 +25,12 @@ services:
         volumes:
             - database_data:/var/lib/postgresql/data:rw
         ports:
-            - "5432:5432"    
-            
+            - "5432:5432"
+
     adminer:
         image: adminer
         ports:
-            - "8080:8080"  # Adminer accessible sur http://localhost:8080
+            - "8080:8080" # Adminer accessible sur http://localhost:8080
 
 volumes:
     database_data:
