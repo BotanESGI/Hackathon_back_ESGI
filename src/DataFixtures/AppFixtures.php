@@ -10,6 +10,7 @@ use App\Entity\Bookings;
 use App\Entity\Negotiations;
 use App\Entity\Image;
 use App\Entity\Swipes;
+use App\Entity\Payment;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -330,6 +331,21 @@ class AppFixtures extends Fixture
         $swipe->setAction('like');
         $swipe->setCreatedAt($createdAt);
         $manager->persist($swipe);
+
+
+        // Payment
+        $payment = new Payment();
+        $payment->setBooking($booking);
+        $payment->setUser($user);
+        $payment->setAmount($booking->getPrice());
+        $payment->setPaymentMethod('carte');
+        $payment->setStatus('completed');
+        $payment->setTransactionId('TXN-' . uniqid());
+        $payment->setPaidAt(new \DateTimeImmutable('2025-04-15 10:30:00'));
+        $manager->persist($payment);
+
+        $manager->flush();
+
 
         $manager->flush();
     }
